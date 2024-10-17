@@ -16,12 +16,12 @@ class TestTextNode(unittest.TestCase):
     def test_diff_url_prop(self):
         node = TextNode("This is a text node", TextType.ITALIC)
         node2 = TextNode("This is a text node", TextType.ITALIC, "https://www.boot.dev")
-        self.assertNotEquals(node, node2)
+        self.assertNotEqual(node, node2)
 
     def test_diff_text_type(self):
         node = TextNode("This is a text node", TextType.CODE, None)
         node2 = TextNode("This is a text node", TextType.ITALIC)
-        self.assertNotEquals(node, node2)
+        self.assertNotEqual(node, node2)
 
 if __name__ == "__main__":
     unittest.main()
