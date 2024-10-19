@@ -1,5 +1,7 @@
 from htmlnode import *
 
+# Child class of HTMLNode class
+
 class LeafNode(HTMLNode):
 
     def __init__(self, value, tag=None, props=None):
@@ -7,9 +9,9 @@ class LeafNode(HTMLNode):
     
     def to_html(self):
         if self.value == None or self.value == "":
-            raise ValueError
+            raise ValueError("LeafNode value is required.")
         elif self.tag == None:
-            return self.value
+            return f'{self.value}'
         else:
             if self.props:
                 return f'<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>'
