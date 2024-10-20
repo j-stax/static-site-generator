@@ -9,7 +9,7 @@ class TestLeafNode(unittest.TestCase):
         self.assertEqual(leafnode.to_html(), "<a href=\"https://www.boot.dev\">This is an anchor tag</a>")
 
     def test_leafnode_value(self):
-        leafnode = LeafNode(tag="p", value="", props=None)
+        leafnode = LeafNode(tag="p", value=None, props=None)
         with self.assertRaises(ValueError):
             leafnode.to_html()
 
