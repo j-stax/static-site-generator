@@ -33,13 +33,13 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
     return new_nodes
 
-if __name__ == '__main__':
-    def main():
-#        node = TextNode("This text has a **bold** word.", "text")
-#        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-        node = TextNode("This text has a `code block` here, and another `code block` here.", "text")
-        new_nodes = split_nodes_delimiter([node], "`", "code")
-        print(new_nodes)         
 
-    main()
+
+if __name__ == '__main__':
+#   node = TextNode("This text has a **bold** word.", "text")
+#   new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+    node = TextNode("This text has a `code block` here, and another `code block` here.", "text")
+    new_nodes = split_nodes_delimiter([node], "`", "code")
+    print(new_nodes)         
+
 

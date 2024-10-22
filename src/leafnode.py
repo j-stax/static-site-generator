@@ -19,10 +19,8 @@ class LeafNode(HTMLNode):
                 return f'<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>'
             else:
                 return f'<{self.tag}>{self.value}</{self.tag}>'
+            
 
 if __name__ == '__main__':
-    def main():
-        leafnode = LeafNode(tag="a", value="This is an anchor tag", props={ "href": "https://www.boot.dev" })
-        print(leafnode.props_to_html())
-
-    main()
+    leafnode = LeafNode(tag="a", value="This is an anchor tag", props={ "href": "https://www.boot.dev" })
+    print(leafnode.props_to_html())
