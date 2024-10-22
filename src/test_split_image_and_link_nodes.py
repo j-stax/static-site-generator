@@ -56,3 +56,26 @@ class TestSplitImageAndLinkNodes(unittest.TestCase):
         ]
         self.assertEqual(result, expected_result)
 
+    def test_multiple_link_nodes(self):
+        node = TextNode(
+            "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+            TextType.TEXT,
+        )
+        node2 = TextNode(
+            "This is a second text with a link [to boot dev2](https://www.second.boot.dev) and a second [to youtube2](https://www.two.youtube.com/@bootdotdev) link markdown.",
+            TextType.TEXT,
+        )
+        result = split_nodes_links([node, node2])
+        expected_result = [
+            TextNode("This is text with a link ", TextType.TEXT),
+            TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+            TextNode(" and ", TextType.TEXT),
+            TextNode("to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"),
+            TextNode("This is a second text with a link ", TextType.TEXT),
+            TextNode("to boot dev2", TextType.LINK, "https://www.second.boot.dev"),
+            TextNode(" and a second ", TextType.TEXT),
+            TextNode("to youtube2", TextType.LINK, "https://www.two.youtube.com/@bootdotdev"),
+            TextNode(" link markdown.", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected_result)
+
