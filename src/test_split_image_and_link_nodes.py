@@ -6,17 +6,41 @@ from textnode import *
 class TestSplitImageAndLinkNodes(unittest.TestCase):
     def test_split_nodes_images(self):
         node = TextNode(
-            "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)", 
+            "This is text with images ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)", 
             TextType.TEXT,
         )
         result_list = split_nodes_images([node])
         expected_result = [
-            TextNode("This is text with a ", TextType.TEXT),
+            TextNode("This is text with images ", TextType.TEXT),
             TextNode("rick roll", TextType.IMAGE, "https://i.imgur.com/aKaOqIh.gif"),
             TextNode(" and ", TextType.TEXT),
             TextNode("obi wan", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg")
         ]
         self.assertEqual(result_list, expected_result)
+
+    def test_multiple_image_nodes(self):
+        node1 = TextNode(
+            "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)", 
+            TextType.TEXT,
+        )
+        node2 = TextNode(
+            "This is another text with a ![some alt text](https://www.image.png) and ![another alt text](https://node2.image.jpeg) image markdown.", 
+            TextType.TEXT,
+        )
+        result = split_nodes_images([node1, node2])
+        expected_result = [
+            TextNode("This is text with a ", TextType.TEXT),
+            TextNode("rick roll", TextType.IMAGE, "https://i.imgur.com/aKaOqIh.gif"),
+            TextNode(" and ", TextType.TEXT),
+            TextNode("obi wan", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+            TextNode("This is another text with a ", TextType.TEXT),
+            TextNode("some alt text", TextType.IMAGE, "https://www.image.png"),
+            TextNode(" and ", TextType.TEXT),
+            TextNode("another alt text", TextType.IMAGE, "https://node2.image.jpeg"),
+            TextNode(" image markdown.", TextType.TEXT)
+        ]
+        self.assertEqual(result, expected_result)
+
 
     def test_split_nodes_links(self):
         node = TextNode(
