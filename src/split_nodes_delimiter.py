@@ -40,6 +40,6 @@ if __name__ == '__main__':
 #   new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
     node = TextNode("This text has a `code block` here, and another `code block` here.", "text")
     new_nodes = split_nodes_delimiter([node], "`", "code")
-    print(new_nodes)         
+    print(new_nodes)  
 
 

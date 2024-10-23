@@ -5,11 +5,15 @@ def split_nodes_images(old_nodes):
 
     new_nodes = []
     for old_node in old_nodes:
+        if old_node.text_type != "text":
+            new_nodes.append(old_node)
+            continue
         original_text = old_node.text
         matches_list = extract_markdown_images(original_text)
 
         if len(matches_list) == 0:
-            return [old_node]
+            new_nodes.append(old_node)
+            continue
         
         temp_list = []
         for i in range(len(matches_list)):
@@ -41,8 +45,16 @@ def split_nodes_links(old_nodes):
     
     new_nodes = []
     for old_node in old_nodes:
+        if old_node.text_type != "text":
+            new_nodes.append(old_node)
+            continue
         original_text = old_node.text
         matches_list = extract_markdown_links(original_text)
+
+        if len(matches_list) == 0:
+            new_nodes.append(old_node)
+            continue
+
         temp_list = []
         for i in range(len(matches_list)):
             link_alt = matches_list[i][0]
