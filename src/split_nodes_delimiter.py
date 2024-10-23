@@ -15,9 +15,18 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         if old_node.text_type != "text":
             new_nodes.append(old_node)
             continue
+
         sections = old_node.text.split(delimiter)
+
+        # Even number of sections represents invalid Markdown syntax
         if len(sections) % 2 == 0:
-            raise Exception("Invalid Markdown syntax")      
+            raise Exception("Invalid Markdown syntax")
+        
+        # Textnode not containing the delimiter is added to list with no changes
+        if len(sections) == 1:
+            new_nodes.append(old_node)
+            continue
+              
         tmp_list = []
         for i in range(len(sections)):
             if sections[i] == " ":
@@ -38,8 +47,9 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 if __name__ == '__main__':
 #   node = TextNode("This text has a **bold** word.", "text")
 #   new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-    node = TextNode("This text has a `code block` here, and another `code block` here.", "text")
-    new_nodes = split_nodes_delimiter([node], "`", "code")
+#    node = TextNode("This text has a `code block` here, and another `code block` here.", "text")
+    node = TextNode("This text has no delimiter.", TextType.TEXT)
+    new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
     print(new_nodes)  
 
 
