@@ -1,5 +1,59 @@
-from markdown_extraction import *
-from textnode import *
+import re
+
+from textnode import TextNode, TextType
+
+
+def text_to_textnode(text):
+    original_text = TextNode(text, TextType.TEXT)
+    new_textnode_list = split_nodes_delimiter([original_text], "**", TextType.BOLD)
+    new_textnode_list = split_nodes_delimiter(new_textnode_list, "*", TextType.ITALIC)
+    new_textnode_list = split_nodes_delimiter(new_textnode_list, "`", TextType.CODE)
+    new_textnode_list = split_nodes_images(new_textnode_list)
+    new_textnode_list = split_nodes_links(new_textnode_list)
+    return new_textnode_list
+
+
+"""
+The function takes a list of "old nodes", a delimiter, and 
+a text type. It returns a new list of nodes, 
+where any "text" type nodes in the input list are 
+(potentially) split into multiple nodes based on 
+the syntax.
+"""
+def split_nodes_delimiter(old_nodes, delimiter, text_type):
+    
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != "text":
+            new_nodes.append(old_node)
+            continue
+
+        sections = old_node.text.split(delimiter)
+
+        # Even number of sections represents invalid Markdown syntax
+        if len(sections) % 2 == 0:
+            raise Exception("Invalid Markdown syntax")
+        
+        # Textnode not containing the delimiter is added to list with no changes
+        if len(sections) == 1:
+            new_nodes.append(old_node)
+            continue
+              
+        tmp_list = []
+        for i in range(len(sections)):
+            if sections[i] == " ":
+                continue
+            if i % 2 == 0:
+                new_node = TextNode(sections[i], TextType.TEXT.value)
+                tmp_list.append(new_node)
+            else:
+                new_node = TextNode(sections[i], text_type)
+                tmp_list.append(new_node)
+
+        new_nodes.extend(tmp_list)
+
+    return new_nodes
+
 
 def split_nodes_images(old_nodes):
 
@@ -80,15 +134,11 @@ def split_nodes_links(old_nodes):
     return new_nodes
 
 
+def extract_markdown_images(text):
+    image_md_matches = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return image_md_matches
 
-if __name__ == '__main__':
-    node = TextNode(
-            "This is text with images ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)", 
-            TextType.TEXT,
-        )
-    # node2 = TextNode(
-    #         "This is another text with a link [to boot dev2](https://www.boot.dev) and [to youtube2](https://www.youtube.com/@bootdotdev), with text after.",
-    #         TextType.TEXT,
-    #     )
-    new_nodes = split_nodes_images([node])
-    print(new_nodes)
+
+def extract_markdown_links(text):
+    link_md_matches = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return link_md_matches

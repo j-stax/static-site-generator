@@ -8,21 +8,21 @@ def block_to_block_type(block):
     ol_matches = re.findall(r"^[1-9][0-9]*\. (?!\.)(.*)(\n[1-9][0-9]*\. (?!\.).*)*$", block)
 
     if len(heading_matches) > 0: 
-        return "heading"
+        return f'h{len(heading_matches[0])-1}'
     if len(code_matches) > 0:
         return "code"
     if len(quote_matches) > 0:
-        return "quote"
+        return "blockquote"
     if len(ul_matches) > 0:
-        return "unordered list"
+        return "ul"
     if len(ol_matches) > 0:
-        return "ordered list"
+        return "ol"
     
-    return "paragraph"
+    return "p"
 
 
 if __name__ == '__main__':
-    text = "* This is a unordered list block.\n- This is an ul block.\n* This is an ul block."
+    text = "### This is an h3 block."
     text2 = "1. ordered list block.\n2. ordered list block.\n3. ordered list block."
     print(block_to_block_type(text))
     print(block_to_block_type(text2))
