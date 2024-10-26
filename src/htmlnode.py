@@ -10,13 +10,15 @@ class HTMLNode():
         raise NotImplementedError
     
     def props_to_html(self):
+        if self.props is None:
+            return ""
         props_str = ""
         for prop, val in self.props.items():
-            props_str += f' {prop}=\"{val}\"'
+            props_str += f' {prop}="{val}"'
         return props_str
     
     def __repr__(self):
-        return f'HTMLNode(tag=\"{self.tag}\", value=\"{self.value}\", children={self.children}, props={self.props})'
+        return f'HTMLNode(tag="{self.tag}", value="{self.value}", children={self.children}, props={self.props})'
     
 
 class LeafNode(HTMLNode):
@@ -25,7 +27,7 @@ class LeafNode(HTMLNode):
         super().__init__(tag=tag, value=value, props=props)
     
     def to_html(self):
-        if self.value == None:
+        if self.value is None:
             raise ValueError("LeafNode value is required.")
         elif self.tag == None:
             return f'{self.value}'
@@ -37,6 +39,9 @@ class LeafNode(HTMLNode):
             else:
                 return f'<{self.tag}>{self.value}</{self.tag}>'
             
+    def __repr__(self):
+        return f'LeafNode({self.tag}, {self.value}, {self.props})'
+            
 
 class ParentNode(HTMLNode):
 
@@ -44,12 +49,17 @@ class ParentNode(HTMLNode):
         super().__init__(tag=tag, children=children, props=props)
 
     def to_html(self):
-        if self.tag == None or self.tag == "":
+        if self.tag is None or self.tag == "":
             raise ValueError("ParentNode tag is required.")
-        elif not self.children:
+        if self.children == None:
             raise ValueError("ParentNode children are required.")
+        children_html = f'<{self.tag}>'
+        for child in self.children:
+            children_html += f'{child.to_html()}'
+        if self.props:
+            return f'{self.props_to_html}{children_html}</{self.tag}>'
         else:
-            html = f'<{self.tag}>'
-            for child in self.children:
-                html += f'{child.to_html()}'
-            return f'{html}</{self.tag}>'
+            return f'{children_html}</{self.tag}>'
+    
+    def __repr__(self):
+        return f'ParentNode({self.tag}, children: {self.children}, {self.props})'

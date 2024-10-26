@@ -1,6 +1,6 @@
 import unittest
 
-from markdown_to_blocks import *
+from markdown_blocks import markdown_to_blocks
 
 class TestMarkdownToBlocks(unittest.TestCase):
     def test_basic_input(self):
