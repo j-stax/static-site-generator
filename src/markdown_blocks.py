@@ -80,7 +80,6 @@ def block_to_html_node(block):
     return ValueError("Invalid block type")
 
 
-
 def text_to_children(text):
     text_nodes = text_to_textnode(text)
     children = []
