@@ -57,7 +57,7 @@ class ParentNode(HTMLNode):
         for child in self.children:
             children_html += f'{child.to_html()}'
         if self.props:
-            return f'{self.props_to_html}{children_html}</{self.tag}>'
+            return f'{self.props_to_html()}{children_html}</{self.tag}>'
         else:
             return f'{children_html}</{self.tag}>'
     

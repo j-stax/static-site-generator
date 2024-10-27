@@ -124,3 +124,33 @@ text and `code`
             "<div><ul><li>This is a list</li><li>with an <i>italic</i> item</li><li>and a <b>bold</b> item</li></ul>" \
             "<ol><li>This is an <code>ordered</code> list</li><li>with some items</li><li>and some more items</li></ol></div>"
         )
+
+
+    def test_headings(self):
+        md = """
+# This is an h1 heading
+
+This is a paragraph text with a **bold** word.
+
+###### This is an h6 heading
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><h1>This is an h1 heading</h1><p>This is a paragraph text with a <b>bold</b> word.</p>" \
+            "<h6>This is an h6 heading</h6></div>"
+        )
+
+    
+    def test_blockquote(self):
+        md = """
+> This is a
+> blockquote block
+"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><blockquote>This is a blockquote block</blockquote></div>"
+        )
