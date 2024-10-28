@@ -20,7 +20,6 @@ def copy_directory_contents(src_dir, dst_dir):
             if os.path.isfile(src_path) or os.path.islink(src_path):
                 with open(src_path, 'rb') as src_file:
                     with open(dst_path, 'wb') as dst_file:
-                        print(f'Logging file path of source: {src_path}')   # Log path being copied
                         dst_file.write(src_file.read())
             elif os.path.isdir(src_path):
                 os.mkdir(dst_path)
