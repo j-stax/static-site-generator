@@ -1,14 +1,14 @@
 from copy_directory_contents import copy_directory_contents
-from generate_page import generate_page
+from generate_pages_recursive import generate_pages_recursive
 
 def main():
     src_dir = './static'
     dst_dir = './public'
-    from_path = './content/index.md'
+    dir_path_content = './content'
     template_path = 'template.html'
-    dest_path = './public/index.html'
+    dest_path = './public'
 
     copy_directory_contents(src_dir, dst_dir)
-    generate_page(from_path, template_path, dest_path)
+    generate_pages_recursive(dir_path_content, template_path, dest_path)
 
 main()
