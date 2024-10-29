@@ -1,5 +1,5 @@
 from copy_directory_contents import copy_directory_contents
-from generate_pages_recursive import generate_pages_recursive
+from generate_page import generate_pages_recursive
 
 def main():
     src_dir = './static'

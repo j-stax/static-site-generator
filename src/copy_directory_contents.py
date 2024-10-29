@@ -1,7 +1,7 @@
 import os
 
 def copy_directory_contents(src_dir, dst_dir):
-    # Remove existing contents in the destination directory
+    print(f'Removing existing content from destination directory {dst_dir}...')
     for filename in os.listdir(dst_dir):
         file_path = os.path.join(dst_dir, filename)
         try:
