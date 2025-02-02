@@ -13,3 +13,4 @@ This is an object-oriented program written in Python that turns markdown files i
 1. Download the files into a code editor that has Python3 installed.
 2. Either use the example markdown in the ```/content``` and ```/content/majesty``` directories, or write your own markdown in these files.
 3. Open up a terminal in the code editor and run ```./main.sh```
+4. Open a browser and go to ```http://localhost:8888``` to see the rendered markup.
